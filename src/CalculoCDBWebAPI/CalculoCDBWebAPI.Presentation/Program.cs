@@ -1,6 +1,14 @@
+using CalculoCDBWebAPI.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using CalculoCDBWebAPI.Infrastructure.CrossCutting.IOC;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("database");
+builder.Services.AddDbContext<SqlContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.DependencyMap();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

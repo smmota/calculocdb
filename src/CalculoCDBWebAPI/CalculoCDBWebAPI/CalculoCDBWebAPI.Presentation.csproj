@@ -12,8 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CalculoCDBWebAPI.Application.DTO\CalculoCDBWebAPI.Application.DTO.csproj" />
+    <ProjectReference Include="..\CalculoCDBWebAPI.Application\CalculoCDBWebAPI.Application.csproj" />
     <ProjectReference Include="..\CalculoCDBWebAPI.Infrastructure.CrossCutting.IOC\CalculoCDBWebAPI.Infrastructure.CrossCutting.IOC.csproj" />
-    <ProjectReference Include="..\CalculoCDBWebAPI.Infrastructure.Data\CalculoCDBWebAPI.Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>

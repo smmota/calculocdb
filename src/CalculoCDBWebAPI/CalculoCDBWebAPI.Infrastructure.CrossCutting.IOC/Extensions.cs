@@ -1,8 +1,8 @@
-﻿using Autofac;
-using CalculoCDBWebAPI.Application.Interfaces;
+﻿using CalculoCDBWebAPI.Application.Interfaces;
 using CalculoCDBWebAPI.Application.Service;
 using CalculoCDBWebAPI.Domain.Core.Interfaces.Repositorys;
 using CalculoCDBWebAPI.Domain.Core.Interfaces.Services;
+using CalculoCDBWebAPI.Domain.Services.Services;
 using CalculoCDBWebAPI.Infrastructure.CrossCutting.Adapter.Interfaces;
 using CalculoCDBWebAPI.Infrastructure.CrossCutting.Adapter.Mapper;
 using CalculoCDBWebAPI.Infrastructure.Repository.Repositorys;
@@ -10,39 +10,33 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CalculoCDBWebAPI.Infrastructure.CrossCutting.IOC
 {
-    public class ConfigurationIOC
+    public static class Extensions
     {
-        public static void Load(ContainerBuilder builder)
+        public static IServiceCollection DependencyMap(this IServiceCollection services)
         {
+
             #region Application
-
-            builder.RegisterType<ApplicationServiceTaxa>().As<IApplicationServiceTaxa>();
-
+            services.AddTransient<IApplicationServiceTaxa, ApplicationServiceTaxa>();
             #endregion
 
             #region Services
-
-            builder.RegisterType<IServiceTaxa>().As<IServiceTaxa>();
-
+            services.AddTransient<IServiceTaxa, ServiceTaxa>();
             #endregion
 
             #region Repositorys
-
-            builder.RegisterType<RepositoryTaxa>().As<IRepositoryTaxa>();
-
+            services.AddTransient<IRepositoryTaxa, RepositoryTaxa>();
             #endregion
 
             #region Mapper
-
-            builder.RegisterType<MapperTaxa>().As<IMapperTaxa>();
-            
+            services.AddTransient<IMapperTaxa, MapperTaxa>();
             #endregion
+
+            return services;
         }
     }
 }
