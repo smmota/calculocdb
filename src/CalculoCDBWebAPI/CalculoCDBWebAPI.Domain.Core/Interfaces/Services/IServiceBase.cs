@@ -8,15 +8,15 @@ namespace CalculoCDBWebAPI.Domain.Core.Interfaces.Services
 {
     public interface IServiceBase<TEntity> where TEntity : class
     {
-        void Add(TEntity obj);
+        Task<TEntity> Add(TEntity obj);
 
-        void Update(TEntity obj);
+        Task<TEntity> Update(TEntity obj);
 
-        void Remove(TEntity obj);
+        Task<TEntity> Remove(TEntity obj);
 
-        IEnumerable<TEntity> GetAll();
+        Task<IEnumerable<TEntity>> GetAll();
 
-        TEntity GetById(Int32 id);
-        void Dispose();
+        Task<TEntity> GetById(Int32 id);
+        Task Dispose();
     }
 }

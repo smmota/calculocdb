@@ -8,16 +8,16 @@ namespace CalculoCDBWebAPI.Domain.Core.Interfaces.Repositorys
 {
     public interface IRepositoryBase<TEntity> where TEntity : class
     {
-        void Add(TEntity obj);
+        Task<TEntity> Add(TEntity obj);
 
-        TEntity GetById(int id);
+        Task<TEntity> GetById(int id);
 
-        IEnumerable<TEntity> GetAll();
+        Task<IEnumerable<TEntity>> GetAll();
 
-        void Update(TEntity obj);
+        Task<TEntity> Update(TEntity obj);
 
-        void Remove(TEntity obj);
+        Task<TEntity> Remove(TEntity obj);
 
-        void Dispose();
+        Task Dispose();
     }
 }

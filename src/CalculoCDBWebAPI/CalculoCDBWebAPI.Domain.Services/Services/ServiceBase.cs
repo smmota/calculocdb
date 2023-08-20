@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CalculoCDBWebAPI.Domain.Services.Services
 {
-    public abstract class ServiceBase<TEntity> : IDisposable, IServiceBase<TEntity> where TEntity : class
+    public abstract class ServiceBase<TEntity> : IAsyncDisposable, IServiceBase<TEntity> where TEntity : class
     {
         private readonly IRepositoryBase<TEntity> _repository;
 
@@ -17,34 +17,39 @@ namespace CalculoCDBWebAPI.Domain.Services.Services
             _repository = repository;
         }
 
-        public virtual void Add(TEntity obj)
+        public virtual async Task<TEntity> Add(TEntity obj)
         {
-            _repository.Add(obj);
+            return await _repository.Add(obj);
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
-            return _repository.GetAll();
+            return await _repository.GetAll();
         }
 
-        public virtual void Update(TEntity obj)
+        public virtual async Task<TEntity> Update(TEntity obj)
         {
-            _repository.Update(obj);
+            return await _repository.Update(obj);
         }
 
-        public virtual void Remove(TEntity obj)
+        public virtual async Task<TEntity> Remove(TEntity obj)
         {
-            _repository.Remove(obj);
+            return await _repository.Remove(obj);
         }
 
-        public virtual TEntity GetById(int id)
+        public virtual async Task<TEntity> GetById(int id)
         {
-            return _repository.GetById(id);
+            return await _repository.GetById(id);
         }
 
-        public virtual void Dispose()
+        public virtual async Task Dispose()
         {
-            _repository.Dispose();
+            await DisposeAsync();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await _repository.Dispose();
         }
     }
 }

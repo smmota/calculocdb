@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CalculoCDBWebAPI.Infrastructure.Repository.Repositorys
 {
-    public abstract class RepositoryBase<TEntity> : IDisposable, IRepositoryBase<TEntity> where TEntity : class 
+    public abstract class RepositoryBase<TEntity> : IAsyncDisposable, IRepositoryBase<TEntity> where TEntity : class 
     {
         private readonly SqlContext _context;
 
@@ -19,12 +19,13 @@ namespace CalculoCDBWebAPI.Infrastructure.Repository.Repositorys
             _context = context;
         }
 
-        public void Add(TEntity obj)
+        public async Task<TEntity> Add(TEntity obj)
         {
             try
             {
                 _context.Set<TEntity>().Add(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+                return obj;
             }
             catch (Exception ex)
             {
@@ -32,27 +33,33 @@ namespace CalculoCDBWebAPI.Infrastructure.Repository.Repositorys
             }
         }
 
-        public void Dispose()
+        public async Task Dispose()
         {
-            _context.Dispose();
+            await DisposeAsync();
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async ValueTask DisposeAsync()
         {
-            return _context.Set<TEntity>().ToList();
+            await _context.DisposeAsync().ConfigureAwait(false);
         }
 
-        public TEntity GetById(int id)
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return _context.Set<TEntity>().Find(id);
+            return await _context.Set<TEntity>().ToListAsync();
         }
 
-        public void Remove(TEntity obj)
+        public async Task<TEntity?> GetById(int id)
+        {
+            return await _context.Set<TEntity>().FindAsync(id);
+        }
+
+        public async Task<TEntity> Remove(TEntity obj)
         {
             try
             {
                 _context.Set<TEntity>().Remove(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+                return obj;
             }
             catch (Exception ex)
             {
@@ -60,12 +67,13 @@ namespace CalculoCDBWebAPI.Infrastructure.Repository.Repositorys
             }
         }
 
-        public void Update(TEntity obj)
+        public async Task<TEntity> Update(TEntity obj)
         {
             try
             {
                 _context.Entry(obj).State = EntityState.Modified;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+                return obj;
             }
             catch (Exception ex)
             {

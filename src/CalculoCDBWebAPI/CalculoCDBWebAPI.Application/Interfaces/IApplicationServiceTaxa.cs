@@ -9,16 +9,16 @@ namespace CalculoCDBWebAPI.Application.Interfaces
 {
     public interface IApplicationServiceTaxa
     {
-        void Add(TaxaDTO obj);
+        Task Add(TaxaDTO obj);
 
-        TaxaDTO GetById(int id);
+        Task<TaxaDTO> GetById(int id);
 
-        IEnumerable<TaxaDTO> GetAll();
+        Task<IEnumerable<TaxaDTO>> GetAll();
 
-        void Update(TaxaDTO obj);
+        Task Update(TaxaDTO obj);
 
-        void Remove(TaxaDTO obj);
+        Task Remove(TaxaDTO obj);
 
-        void Dispose();
+        Task Dispose();
     }
 }

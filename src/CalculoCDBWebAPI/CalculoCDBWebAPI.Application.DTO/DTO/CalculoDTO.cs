@@ -9,19 +9,18 @@
 
         public CalculoDTO() { }
 
-        public CalculoDTO(decimal valorAplicado, int quantidadeMeses, double taxaCDI, double taxaTBDecimal)
+        public CalculoDTO(decimal? valorAplicado, int? quantidadeMeses, double taxaCDI, double taxaTBDecimal)
         {
             Calculo(valorAplicado, quantidadeMeses, taxaCDI, taxaTBDecimal);
         }
 
-        public CalculoDTO Calculo(decimal valorAplicado, int quantidadeMeses, double taxaCDI, double taxaTB)
+        public CalculoDTO Calculo(decimal? valorAplicado, int? quantidadeMeses, double taxaCDI, double taxaTB)
         {
-            ValorAplicado = valorAplicado;
-            QuantidadeMeses = quantidadeMeses;
-
             var taxas = Convert.ToDecimal(taxaCDI * taxaTB);
 
-            ValorBruto = Math.Round(valorAplicado * (quantidadeMeses + (taxas)), 2);
+            ValorAplicado = valorAplicado?? 0;
+            QuantidadeMeses = quantidadeMeses?? 0;
+            ValorBruto = Math.Round(ValorAplicado * (QuantidadeMeses + (taxas)), 2);
             ValorLiquido = 100;
 
             return new CalculoDTO();
